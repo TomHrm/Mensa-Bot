@@ -6,8 +6,6 @@ on:
     - cron: '0 9 * * MON-FRI'
   pull_request:
     types:
-      - opened
-      - edited
       - closed
 
   
