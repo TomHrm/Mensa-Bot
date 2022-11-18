@@ -4,6 +4,7 @@ on:
   # Triggers the workflow every 5 minutes
   schedule:
     - cron: '0 9 * * MON-FRI'
+  
 
 jobs:
   build-linux:
