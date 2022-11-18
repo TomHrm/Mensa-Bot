@@ -3,7 +3,7 @@ name: Python Package using Conda
 on:
   # Triggers the workflow every 5 minutes
   schedule:
-    - cron: "0 10 * * *"
+    - cron: '0 0 10 ? * MON-FRI *'
 
 jobs:
   build-linux:
