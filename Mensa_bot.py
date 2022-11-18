@@ -30,7 +30,7 @@ def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
             else:
                 if meal['canteen'] == 10:
                     canteen = "Ikum"
-                telegram_bot_sendtext("REMINDER: Heute gibt es " + meal['dish'] + (meal['price']) + "€ in der Mensa" + canteen, BOT_TOKEN, CHAT_ID)
+                telegram_bot_sendtext("REMINDER: Heute gibt es " + meal['dish'] + " " + (meal['price']) + "€ in der Mensa " + canteen, BOT_TOKEN, CHAT_ID)
 
 
 def get_feedback():
