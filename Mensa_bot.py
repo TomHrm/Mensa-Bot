@@ -8,7 +8,7 @@ import glob
 good_stuff = ['Burger', 'Nuggets', 'Schnitzel']
 
 # when sending 
-DEBUG = False
+DEBUG = True
 def check_for_saved_meals():
     print(glob.glob("/Users/tomherrmann/Documents/GitHub/Mensa-Bot/meals"))
 
