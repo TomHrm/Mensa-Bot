@@ -1,6 +1,9 @@
 name: Python Package using Conda
 
-on: [push]
+on:
+  # Triggers the workflow every 5 minutes
+  schedule:
+    - cron: "* * */5 * *"
 
 jobs:
   build-linux:
