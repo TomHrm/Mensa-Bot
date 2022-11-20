@@ -1,5 +1,4 @@
-import argparse
-import sys
+from datetime import datetime
 
 from Api_requests import *
 from telegram_bot import *
@@ -20,17 +19,26 @@ def create_meal(meal, cantine, price):
     }
     return meal
 
+
+
 def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
-    response = get_speiseplan_tomorrow()
-    reminder = get_speiseplan_today()
-    for meal in reminder:
+    response = get_speiseplan_today()
+    Header = "Der heutige Speiseplan " + datetime.now().strftime("%d.%m.%Y") + " ist: \n"
+    vegan = ""
+    vegetarian = ""
+    fav = ""
+    for meal in response:
         if [ele for ele in good_stuff if (ele in meal['dish'])]:
-            if DEBUG == True:
-                print("DEBUG REMINDER " + meal['dish'])
-            else:
-                if meal['canteen'] == 10:
-                    canteen = "Ikum"
-                telegram_bot_sendtext("REMINDER: Heute gibt es " + meal['dish'] + " " + (meal['price']) + "€ in der Mensa " + canteen, BOT_TOKEN, CHAT_ID)
+            fav = "[FAVORITE]"
+        if meal['vegan'] == True:
+            vegan = '[vegan] '
+        if meal['vegetarian'] == True:
+            vegetarian = '[vegetarian] '
+        Header = Header + '- ' + fav + vegan + vegetarian + meal['dish'] + ' ' + (meal['price']) + "€ \n"
+        vegan = ""
+        vegetarian = ""
+        fav = ""
+    telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
 
 
 def get_feedback():

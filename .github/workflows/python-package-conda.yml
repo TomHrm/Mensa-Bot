@@ -23,8 +23,10 @@ jobs:
       with:
         # Version range or exact version of a Python version to use, using SemVer's version range syntax.
         python-version: 3.11.0
-    - name: install requests via htf
+    - name: install requests via pip
       run: "pip install requests"  
+    - name: install daytime via datetime
+      run: "pip install datetime"  
     - name: install packages and run programm
       run: python Mensa_bot.py ${{ secrets.BOT_TOKEN }} ${{ secrets.CHAT_ID }}
         
