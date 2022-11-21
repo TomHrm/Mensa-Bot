@@ -7,6 +7,14 @@ on:
   pull_request:
     types:
       - closed
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Manuel Started'  
 
   
 
