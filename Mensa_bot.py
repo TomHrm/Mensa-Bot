@@ -5,7 +5,7 @@ from Api_requests import *
 from telegram_bot import *
 import glob
 
-good_stuff = ['Burger', 'Nuggets', 'Schnitzel']
+good_stuff = ['Burger', 'Nuggets', 'Schnitzel', 'schnitzel']
 
 # when sending 
 DEBUG = False
@@ -39,6 +39,8 @@ def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
         vegan = ""
         vegetarian = ""
         fav = ""
+        if "&" in Header:
+            Header = Header.replace("&", "und")
     telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
 
 
