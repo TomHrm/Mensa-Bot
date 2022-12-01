@@ -39,8 +39,9 @@ def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
 
     if "&" in Header:
         Header = Header.replace("&", "und")
+    telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
     response = get_speiseplan_today()
-    Header = Header + "Der **heutige** Speiseplan " + (datetime.today() + timedelta(days=1)).strftime("%d.%m.%Y") + " ist: \n"
+    Header = "Der **heutige** Speiseplan " + (datetime.today() + timedelta(days=1)).strftime("%d.%m.%Y") + " ist: \n"
     vegan = ""
     vegetarian = ""
     fav = ""
@@ -55,6 +56,8 @@ def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
         vegan = ""
         vegetarian = ""
         fav = ""
+    if "&" in Header:
+        Header = Header.replace("&", "und")
     telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
 
 
