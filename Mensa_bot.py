@@ -23,23 +23,7 @@ def create_meal(meal, cantine, price):
 
 
 def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
-    response = get_speiseplan_today()
-    Header = "Der **heutige** Speiseplan " + datetime.now().strftime("%d.%m.%Y") + " ist: \n"
-    vegan = ""
-    vegetarian = ""
-    fav = ""
-    for meal in response:
-        if [ele for ele in good_stuff if (ele in meal['dish'])]:
-            fav = "⭐ "
-        if meal['vegan'] == True:
-            vegan = '🥦 '
-        if meal['vegetarian'] == True:
-            vegetarian = '🌿 '
-        Header = Header + '- ' + fav + vegan + vegetarian + meal['dish'] + ' ' + (meal['price']) + "€ \n\n"
-        vegan = ""
-        vegetarian = ""
-        fav = ""
-    Header = Header + "Der **morgige** Speiseplan " + str(datetime.now()+timedelta(1)) + " ist: \n"
+    Header = "Der **morgige** Speiseplan " + str(datetime.now()+timedelta(1)) + " ist: \n"
     response2 = get_speiseplan_tomorrow()
     for meal in response2:
         if [ele for ele in good_stuff if (ele in meal['dish'])]:
@@ -55,6 +39,22 @@ def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
 
     if "&" in Header:
         Header = Header.replace("&", "und")
+    response = get_speiseplan_today()
+    Header = Header + "Der **heutige** Speiseplan " + (datetime.today() + timedelta(days=1)).strftime("%d.%m.%Y") + " ist: \n"
+    vegan = ""
+    vegetarian = ""
+    fav = ""
+    for meal in response:
+        if [ele for ele in good_stuff if (ele in meal['dish'])]:
+            fav = "⭐ "
+        if meal['vegan'] == True:
+            vegan = '🥦 '
+        if meal['vegetarian'] == True:
+            vegetarian = '🌿 '
+        Header = Header + '- ' + fav + vegan + vegetarian + meal['dish'] + ' ' + (meal['price']) + "€ \n\n"
+        vegan = ""
+        vegetarian = ""
+        fav = ""
     telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
 
 
