@@ -55,8 +55,7 @@ def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
 
     if "&" in Header:
         Header = Header.replace("&", "und")
-    print(Header)
-    #telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
+    telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
 
 
 def get_feedback():
