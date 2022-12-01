@@ -3,7 +3,7 @@ name: Python Package using Conda
 on:
   # Triggers the workflow every 5 minutes
   schedule:
-    - cron: '0 9 * * MON-FRI'
+    - cron: '0 7 * * MON-FRI'
   pull_request:
     types:
       - closed
