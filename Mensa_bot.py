@@ -30,11 +30,11 @@ def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
     fav = ""
     for meal in response:
         if [ele for ele in good_stuff if (ele in meal['dish'])]:
-            fav = ":star: "
+            fav = "⭐ "
         if meal['vegan'] == True:
-            vegan = '[vegan] '
+            vegan = '🥦 '
         if meal['vegetarian'] == True:
-            vegetarian = ':herb: '
+            vegetarian = '🌿 '
         Header = Header + '- ' + fav + vegan + vegetarian + meal['dish'] + ' ' + (meal['price']) + "€ \n\n"
         vegan = ""
         vegetarian = ""
@@ -43,11 +43,11 @@ def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
     response2 = get_speiseplan_tomorrow()
     for meal in response2:
         if [ele for ele in good_stuff if (ele in meal['dish'])]:
-            fav = ":star: "
+            fav = "⭐️"
         if meal['vegan'] == True:
-            vegan = '[vegan] '
+            vegan = '🥦 '
         if meal['vegetarian'] == True:
-            vegetarian = ":herb: "
+            vegetarian = "🌿"
         Header = Header + '- ' + fav + vegan + vegetarian + meal['dish'] + ' ' + (meal['price']) + "€ \n\n"
         vegan = ""
         vegetarian = ""
