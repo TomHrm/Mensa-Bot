@@ -23,6 +23,9 @@ def create_meal(meal, cantine, price):
 
 
 def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
+    vegan = ""
+    vegetarian = ""
+    fav = ""
     response2 = get_speiseplan_tomorrow()
     if response2 == []:
         print("No meals tomorrow")
