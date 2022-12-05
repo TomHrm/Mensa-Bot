@@ -8,7 +8,7 @@ import glob
 good_stuff = ['Burger', 'Nuggets', 'Schnitzel', 'schnitzel']
 
 # when sending 
-DEBUG = False
+DEBUG = True
 def check_for_saved_meals():
     print(glob.glob("/Users/tomherrmann/Documents/GitHub/Mensa-Bot/meals"))
 
@@ -27,11 +27,12 @@ def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
     vegetarian = ""
     fav = ""
     response2 = get_speiseplan_tomorrow()
-    if response2 == []:
-        print("No meals tomorrow")
-    else:
-        Header = "Der **morgige** Speiseplan " + str(datetime.now() + timedelta(1)) + " ist: \n"
-        telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
+    if response2:
+        Header = "Der **morgige** Speiseplan " + (datetime.now() + timedelta(1)).strftime("%d.%m.%Y") + " ist: \n"
+        if DEBUG:
+            print(Header)
+        else:
+            telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
         for meal in response2:
             if [ele for ele in good_stuff if (ele in meal['dish'])]:
                 fav = "⭐️"
@@ -39,22 +40,24 @@ def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
                 vegan = '🥦 '
             if meal['vegetarian'] == True:
                 vegetarian = "🌿"
-            Header = '- ' + fav + vegan + vegetarian + meal['dish'] + ' ' + (meal['price']) + "€ \n\n"
-            Header = Header.replace("&", "und")
-            telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
+            meal_text = '- ' + fav + vegan + vegetarian + meal['dish'] + ' ' + (meal['price']) + "€ \n\n"
             vegan = ""
             vegetarian = ""
             fav = ""
+            if DEBUG:
+                print(meal_text)
+            else:
+                telegram_bot_sendtext(meal_text, BOT_TOKEN, CHAT_ID)
     response = get_speiseplan_today()
-    if response == []:
-        print("No meals today")
-    else:
-        Header = "Der **heutige** Speiseplan " + (datetime.today() + timedelta(days=1)).strftime(
-            "%d.%m.%Y") + " ist: \n"
-        telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
-        vegan = ""
-        vegetarian = ""
-        fav = ""
+    vegan = ""
+    vegetarian = ""
+    fav = ""
+    if response:
+        Header = "Der **heutige** Speiseplan " + datetime.today().strftime("%d.%m.%Y") + " ist: \n"
+        if DEBUG:
+            print(Header)
+        else:
+            telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
         for meal in response:
             if [ele for ele in good_stuff if (ele in meal['dish'])]:
                 fav = "⭐ "
@@ -62,12 +65,16 @@ def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
                 vegan = '🥦 '
             if meal['vegetarian'] == True:
                 vegetarian = '🌿 '
-            Header = '- ' + fav + vegan + vegetarian + meal['dish'] + ' ' + (meal['price']) + "€ \n\n"
-            Header = Header.replace("&", "und")
-            telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
+            meal_text = '- ' + fav + vegan + vegetarian + meal['dish'] + ' ' + (meal['price']) + "€ \n\n"
             vegan = ""
             vegetarian = ""
             fav = ""
+            if DEBUG:
+                print(meal_text)
+            else:
+                telegram_bot_sendtext(meal_text, BOT_TOKEN, CHAT_ID)
+
+
 
 def get_feedback():
     response  = requests.get("https://mensa.mafiasi.de/api/feedback/meal")
