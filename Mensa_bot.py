@@ -85,9 +85,15 @@ def send_feedback(meal, feedback):
 
 if __name__ == '__main__':
     if DEBUG == True:
-        check_for_good_stuff(1, 1)
+        try:
+            check_for_good_stuff(1, 1)
+        except UnboundLocalError:
+            print("Error: Please provide a valid token and chat id")
     else:
-        check_for_good_stuff(sys.argv[1],sys.argv[2])
+        try:
+            check_for_good_stuff(sys.argv[1],sys.argv[2])
+        except UnboundLocalError:
+            print("Error: Please provide a valid token and chat id")
 
 
 
