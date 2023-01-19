@@ -23,31 +23,31 @@ def create_meal(meal, cantine, price):
 
 
 def check_for_good_stuff(BOT_TOKEN, CHAT_ID):
-    vegan = ""
-    vegetarian = ""
-    fav = ""
-    response2 = get_speiseplan_tomorrow()
-    if response2:
-        Header = "Der **morgige** Speiseplan " + (datetime.now() + timedelta(1)).strftime("%d.%m.%Y") + " ist: \n"
-        if DEBUG:
-            print(Header)
-        else:
-            telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
-        for meal in response2:
-            if [ele for ele in good_stuff if (ele in meal['dish'])]:
-                fav = "⭐️"
-            if meal['vegan'] == True:
-                vegan = '🥦 '
-            if meal['vegetarian'] == True:
-                vegetarian = "🌿"
-            meal_text = '- ' + fav + vegan + vegetarian + meal['dish'] + ' ' + (meal['price']) + "€ \n\n"
-            vegan = ""
-            vegetarian = ""
-            fav = ""
-            if DEBUG:
-                print(meal_text)
-            else:
-                telegram_bot_sendtext(meal_text, BOT_TOKEN, CHAT_ID)
+    # vegan = ""
+    # vegetarian = ""
+    # fav = ""
+    # response2 = get_speiseplan_tomorrow()
+    # if response2:
+    #     Header = "Der **morgige** Speiseplan " + (datetime.now() + timedelta(1)).strftime("%d.%m.%Y") + " ist: \n"
+    #     if DEBUG:
+    #         print(Header)
+    #     else:
+    #         telegram_bot_sendtext(Header, BOT_TOKEN, CHAT_ID)
+    #     for meal in response2:
+    #         if [ele for ele in good_stuff if (ele in meal['dish'])]:
+    #             fav = "⭐️"
+    #         if meal['vegan'] == True:
+    #             vegan = '🥦 '
+    #         if meal['vegetarian'] == True:
+    #             vegetarian = "🌿"
+    #         meal_text = '- ' + fav + vegan + vegetarian + meal['dish'] + ' ' + (meal['price']) + "€ \n\n"
+    #         vegan = ""
+    #         vegetarian = ""
+    #         fav = ""
+    #         if DEBUG:
+    #             print(meal_text)
+    #         else:
+    #             telegram_bot_sendtext(meal_text, BOT_TOKEN, CHAT_ID)
     response = get_speiseplan_today()
     vegan = ""
     vegetarian = ""
