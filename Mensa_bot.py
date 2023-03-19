@@ -5,7 +5,7 @@ from Api_requests import *
 from telegram_bot import *
 import glob
 
-good_stuff = ['Burger', 'Nuggets', 'Schnitzel', 'schnitzel']
+good_stuff = ['Burger', 'Nuggets', 'Schnitzel', 'schnitzel', "burger"]
 
 # when sending 
 DEBUG = False
