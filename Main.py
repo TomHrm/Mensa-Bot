@@ -55,7 +55,7 @@ def send_poll(token, chat_id):
     payload = {
         'chat_id': chat_id,
         'question': "Wann gehen wir heute essen?",
-        'options': json.dumps(["11:45", "12:00", "12:30", "13:00", "13:30"]),
+        'options': json.dumps(["Bin nicht am Ikum", "11:45", "12:00", "12:30", "13:00", "13:30"]),
         'allows_multiple_answers': True,  # Change this to True if you want to allow multiple answers
         'is_anonymous': False  # Change this to True if you want the poll to be anonymous
     }
