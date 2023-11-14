@@ -63,15 +63,14 @@ def send_poll(BOT_TOKEN, CHAT_ID):
 
 
 def send_message(bot_message, BOT_TOKEN, CHAT_ID):
-    bot_token = BOT_TOKEN
-    bot_chatID = CHAT_ID
     if "&" in bot_message:
         bot_message = bot_message.replace("&", "und")
-    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?CHAT_ID=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
+    send_text = 'https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage?CHAT_ID=' + CHAT_ID + '&parse_mode=Markdown&text=' + bot_message
     response = requests.get(send_text)
     return response.json()
 
 def main():
+    print("starting Bot")
     try:
         check_for_good_stuff(sys.argv[1],sys.argv[2])
         # check_for_good_stuff(token, CHAT_ID)
