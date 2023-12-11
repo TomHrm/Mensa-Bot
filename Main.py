@@ -1,43 +1,79 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 import requests
 import sys
 import json
 
-good_stuff = ['Burger', 'Nuggets', 'Schnitzel', 'schnitzel', "burger"]
+FAVORITE_DISHES = ['Burger', 'Nuggets', 'Schnitzel', 'schnitzel', "burger"]
+API_BASE_URL = "https://mensa.mafiasi.de/api/canteens/10"
+TELEGRAM_API_BASE_URL = "https://api.telegram.org/bot"
 
+def get_menu(day):
+    """
+    Fetch the menu for a given day.
 
-def get_speiseplan_today():
-    response = requests.get("https://mensa.mafiasi.de/api/canteens/10/today/")
+    Args:
+    day (str): 'today' or 'tomorrow'.
+
+    Returns:
+    dict: JSON response from the API.
+    """
+    response = requests.get(f"{API_BASE_URL}/{day}/")
     return response.json()
 
+def send_message(token, chat_id, message):
+    """
+    Send a message to a specified Telegram chat.
 
-def get_speiseplan_tomorrow():
-    response = requests.get("https://mensa.mafiasi.de/api/canteens/10/tomorrow/")
+    Args:
+    token (str): Telegram Bot API token.
+    chat_id (str): Chat ID for the message.
+    message (str): The message to be sent.
+
+    Returns:
+    dict: The response from the Telegram API.
+    """
+    url = f"{TELEGRAM_API_BASE_URL}{token}/sendMessage"
+    payload = {
+        'chat_id': chat_id,
+        'text': message,
+        'parse_mode': 'Markdown'
+    }
+    response = requests.post(url, json=payload)
     return response.json()
 
-def check_for_good_stuff(token, chat_id):
-    response = get_speiseplan_today()
-    vegan = ""
-    vegetarian = ""
-    fav = ""
-    if response:
-        Header = "Der **heutige** Speiseplan " + datetime.today().strftime("%d.%m.%Y") + " ist: \n"
-        send_message(token, chat_id, Header)
-        for meal in response:
-            if [ele for ele in good_stuff if (ele in meal['dish'])]:
-                fav = "⭐ "
-            if meal['vegan'] == True:
-                vegan = '🥦 '
-            if meal['vegetarian'] == True:
-                vegetarian = '🌿 '
-            meal_text = '- ' + fav + vegan + vegetarian + meal['dish'] + ' ' + (meal['price']) + "€ \n\n"
-            vegan = ""
-            vegetarian = ""
-            fav = ""
-            send_message(token, chat_id, meal_text)
-        return True
-    return False
+def check_for_favorite_dishes(token, chat_id):
+    """
+    Check today's menu for favorite dishes and send messages to the chat.
 
+    Args:
+    token (str): Telegram Bot API token.
+    chat_id (str): Chat ID for the messages.
+
+    Returns:
+    bool: True if there are favorite dishes, False otherwise.
+    """
+    menu = get_menu("today")
+    if not menu:
+        return False
+
+    header = f"Der **heutige** Speiseplan {datetime.today().strftime('%d.%m.%Y')} ist: \n"
+    send_message(token, chat_id, header)
+
+    has_favorites = False
+    for meal in menu:
+        fav, vegan, vegetarian = "", "", ""
+        if any(dish.lower() in meal['dish'].lower() for dish in FAVORITE_DISHES):
+            fav = "⭐ "
+            has_favorites = True
+        if meal.get('vegan'):
+            vegan = '🥦 '
+        if meal.get('vegetarian'):
+            vegetarian = '🌿 '
+
+        meal_text = f"- {fav}{vegan}{vegetarian}{meal['dish']} {meal.get('price', 'N/A')}€ \n\n"
+        send_message(token, chat_id, meal_text)
+
+    return has_favorites
 
 def send_poll(token, chat_id):
     """
@@ -45,43 +81,28 @@ def send_poll(token, chat_id):
 
     Args:
     token (str): Telegram Bot API token.
-    chat_id (str): Chat ID where the poll is to be sent.
-    question (str): The question of the poll.
-    options (list): A list of options for the poll.
+    chat_id (str): Chat ID for the poll.
 
     Returns:
-    response: The response from the Telegram API.
+    dict: The response from the Telegram API.
     """
-    chat_id = chat_id
-    url = 'https://api.telegram.org/bot' + token + '/sendPoll'
+    url = f"{TELEGRAM_API_BASE_URL}{token}/sendPoll"
     payload = {
         'chat_id': chat_id,
         'question': "Wann gehen wir heute essen?",
         'options': json.dumps(["Bin nicht am Ikum", "11:45", "12:00", "12:30", "13:00", "13:30"]),
-        'allows_multiple_answers': False,  # Change this to True if you want to allow multiple answers
-        'is_anonymous': False  # Change this to True if you want the poll to be anonymous
+        'allows_multiple_answers': False,
+        'is_anonymous': False
     }
     response = requests.get(url, data=payload)
-    print(response.json())
-    return response.json()
-
-def send_message(token, chat_id, message):
-    parse_mode = 'Markdown'
-    url = f'https://api.telegram.org/bot{token}/sendMessage'
-    payload = {
-        'chat_id': chat_id,
-        'text': message,
-        'parse_mode': parse_mode
-    }
-    response = requests.post(url, json=payload)
     return response.json()
 
 def main():
     try:
-        there_is_good_stuff = check_for_good_stuff(sys.argv[1],sys.argv[2])
-        if there_is_good_stuff:
-            send_poll(sys.argv[1],sys.argv[2])
-    except UnboundLocalError:
+        token, chat_id = sys.argv[1], sys.argv[2]
+        if check_for_favorite_dishes(token, chat_id):
+            send_poll(token, chat_id)
+    except IndexError:
         print("Error: Please provide a valid token and chat id")
 
 if __name__ == '__main__':
