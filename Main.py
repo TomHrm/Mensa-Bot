@@ -35,6 +35,8 @@ def check_for_good_stuff(token, chat_id):
             vegetarian = ""
             fav = ""
             send_message(token, chat_id, meal_text)
+        return True
+    return False
 
 
 def send_poll(token, chat_id):
@@ -56,7 +58,7 @@ def send_poll(token, chat_id):
         'chat_id': chat_id,
         'question': "Wann gehen wir heute essen?",
         'options': json.dumps(["Bin nicht am Ikum", "11:45", "12:00", "12:30", "13:00", "13:30"]),
-        'allows_multiple_answers': True,  # Change this to True if you want to allow multiple answers
+        'allows_multiple_answers': False,  # Change this to True if you want to allow multiple answers
         'is_anonymous': False  # Change this to True if you want the poll to be anonymous
     }
     response = requests.get(url, data=payload)
@@ -76,8 +78,9 @@ def send_message(token, chat_id, message):
 
 def main():
     try:
-        check_for_good_stuff(sys.argv[1],sys.argv[2])
-        send_poll(sys.argv[1],sys.argv[2])
+        there_is_good_stuff = check_for_good_stuff(sys.argv[1],sys.argv[2])
+        if there_is_good_stuff:
+            send_poll(sys.argv[1],sys.argv[2])
     except UnboundLocalError:
         print("Error: Please provide a valid token and chat id")
 
