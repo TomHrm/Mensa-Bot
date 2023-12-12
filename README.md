@@ -19,10 +19,10 @@ MensaBot is a simple Python application designed to interact with a canteen's me
 
 1. Ensure Python 3 is installed on your system. If not, you can download it from [python.org](https://www.python.org/downloads/).
 
-2. Install the `requests` library using pip:
+2. Install packages  using pip:
 
    ```bash
-   pip install requests
+   pip install -r requirements.txt
     ```
 ## Usage 
 1. lone the repository or download the mensa_bot.py script.
