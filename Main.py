@@ -41,16 +41,16 @@ def send_message(token, chat_id, message):
     response = requests.post(url, json=payload)
     return response.json()
 
-def check_for_favorite_dishes(token, chat_id):
+def check_for_menu(token, chat_id):
     """
-    Check today's menu for favorite dishes and send messages to the chat.
+    Check today's menu and send messages to the chat.
 
     Args:
     token (str): Telegram Bot API token.
     chat_id (str): Chat ID for the messages.
 
     Returns:
-    bool: True if there are favorite dishes, False otherwise.
+    bool: True if there is a menu for today, False otherwise.
     """
     menu = get_menu("today")
     if not menu:
@@ -59,7 +59,6 @@ def check_for_favorite_dishes(token, chat_id):
     header = f"Der **heutige** Speiseplan {datetime.today().strftime('%d.%m.%Y')} ist: \n"
     send_message(token, chat_id, header)
 
-    has_favorites = False
     for meal in menu:
         fav, vegan, vegetarian = "", "", ""
         if any(dish.lower() in meal['dish'].lower() for dish in FAVORITE_DISHES):
@@ -73,7 +72,7 @@ def check_for_favorite_dishes(token, chat_id):
         meal_text = f"- {fav}{vegan}{vegetarian}{meal['dish']} {meal.get('price', 'N/A')}€ \n\n"
         send_message(token, chat_id, meal_text)
 
-    return has_favorites
+    return True
 
 def send_poll(token, chat_id):
     """
@@ -100,7 +99,7 @@ def send_poll(token, chat_id):
 def main():
     try:
         token, chat_id = sys.argv[1], sys.argv[2]
-        if check_for_favorite_dishes(token, chat_id):
+        if check_for_menu(token, chat_id):
             send_poll(token, chat_id)
     except IndexError:
         print("Error: Please provide a valid token and chat id")
