@@ -37,4 +37,4 @@ jobs:
     - name: install daytime via datetime
       run: "pip install datetime"  
     - name: install packages and run programm
-      run: python Main.py ${{ secrets.BOT_TOKEN }} ${{ secrets.CHAT_ID }}
+      run: python EarlyBird.py ${{ secrets.BOT_TOKEN }} ${{ secrets.CHAT_ID }}
