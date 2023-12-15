@@ -96,6 +96,66 @@ def send_poll(token, chat_id):
     response = requests.get(url, data=payload)
     return response.json()
 
+def send_image(token, chat_id, image_url):
+    """
+    Send an image to a specified Telegram chat.
+
+    Args:
+    token (str): Telegram Bot API token.
+    chat_id (str): Chat ID for the image.
+    image_url (str): URL of the image to be sent.
+
+    Returns:
+    dict: The response from the Telegram API.
+    """
+    url = f"{TELEGRAM_API_BASE_URL}{token}/sendPhoto"
+    payload = {
+        'chat_id': chat_id,
+        'photo': image_url
+    }
+    response = requests.get(url, data=payload)
+    return response.json()
+
+def get_reactions(token, chat_id, message_id):
+    """
+    Get the reactions to a message.
+
+    Args:
+    token (str): Telegram Bot API token.
+    chat_id (str): Chat ID for the message.
+    message_id (str): ID of the message to get reactions for.
+
+    Returns:
+    dict: The response from the Telegram API.
+    """
+    url = f"{TELEGRAM_API_BASE_URL}{token}/getPollVoters"
+    payload = {
+        'chat_id': chat_id,
+        'message_id': message_id
+    }
+    response = requests.get(url, data=payload)
+    return response.json()
+
+def get_poll_results(token, chat_id, message_id):
+    """
+    Get the results of a poll.
+
+    Args:
+    token (str): Telegram Bot API token.
+    chat_id (str): Chat ID for the poll.
+    message_id (str): ID of the poll to get results for.
+
+    Returns:
+    dict: The response from the Telegram API.
+    """
+    url = f"{TELEGRAM_API_BASE_URL}{token}/stopPoll"
+    payload = {
+        'chat_id': chat_id,
+        'message_id': message_id
+    }
+    response = requests.get(url, data=payload)
+    return response.json()
+
 def main():
     try:
         token, chat_id = sys.argv[1], sys.argv[2]
