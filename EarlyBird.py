@@ -3,7 +3,7 @@ import requests
 import sys
 import json
 
-FAVORITE_DISHES = ['Burger', 'Nuggets', 'Schnitzel', 'schnitzel', "burger"]
+FAVORITE_DISHES = ['Burger', 'Nuggets', 'Schnitzel', 'schnitzel', "burger", 'nuggets']
 API_BASE_URL = "https://mensa.mafiasi.de/api/canteens/10"
 TELEGRAM_API_BASE_URL = "https://api.telegram.org/bot"
 
