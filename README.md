@@ -40,6 +40,7 @@ To customize the list of favorite dishes, modify the FAVORITE_DISHES list in the
     FAVORITE_DISHES = ['Burger', 'Nuggets', 'Schnitzel', 'schnitzel', "burger"]
    ```
 
+
 ## Contributing
 
 Contributions to MensaBot are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
