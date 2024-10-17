@@ -13,9 +13,7 @@ on:
         required: true
         default: 'warning'
       tags:
-        description: 'Manuel Started'  
-
-  
+        description: 'Manuel Started'
 
 jobs:
   build-linux:
