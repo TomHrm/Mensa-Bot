@@ -1,4 +1,4 @@
-
+import requests
 def get_reactions(token, chat_id, message_id):
     """
     Get the reactions to a message.
